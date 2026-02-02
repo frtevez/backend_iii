@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { petsService, usersService } from "../services/index.js";
+import { createHash } from "../utils/index.js";
 
 const _generateMultipleMocks = async (callback, quantity) => {
     const result = []
@@ -16,6 +17,8 @@ const _generateUser = async () => {
     const password = faker.internet.password({ memorable: true })
     const role = faker.helpers.arrayElement(['user', 'admin'])
     const pets = []
+
+    const hashedPassword = await createHash(password)
     const user = await usersService.create({
         first_name,
         last_name,
