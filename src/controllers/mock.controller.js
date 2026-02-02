@@ -23,7 +23,7 @@ const _generateUser = async () => {
         first_name,
         last_name,
         email,
-        password,
+        password: hashedPassword,
         role,
         pets
     })
