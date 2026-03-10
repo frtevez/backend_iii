@@ -16,13 +16,13 @@ before(async () => {
 
 describe("Users dao CRUD testing", function () {
   this.timeout(5000);
-  const daoUsers = new Users();
+  const usersDao = new Users();
 
   const userMock = {
-    first_name: "sample",
-    last_name: "user",
-    email: "sampleuser@mail.com",
-    password: "sampleuser",
+    first_name: "test_user",
+    last_name: "test_user",
+    email: "testuser@mail.com",
+    password: "testuser",
     role: "user",
     pets: []
   };
@@ -39,36 +39,37 @@ describe("Users dao CRUD testing", function () {
     });
   });
 
-  it("Expected result: full user object with _id", async () => {
-    const result = await daoUsers.save(userMock);
-    expect(result).to.have.property("_id");
-    expect(result.email).to.equal(userMock.email);
-  });
-  it("Expected result: user objects array", async () => {
-    await daoUsers.save(userMock);
-    const result = await daoUsers.get({});
+  
+  it("Expected get() result: user objects array", async () => {
+    await usersDao.save(userMock);
+    const result = await usersDao.get();
     expect(result).to.be.an("array");
     expect(result.length).to.be.greaterThan(0);
   });
-  it("Expected result: user object found through email", async () => {
-    await daoUsers.save(userMock);
-    const result = await daoUsers.getBy({ email: userMock.email });
+  it("Expected getBy(email) result: user object found through email", async () => {
+    await usersDao.save(userMock);
+    const result = await usersDao.getBy({ email: userMock.email });
     expect(result).to.exist;
     expect(result.email).to.equal(userMock.email);
   });
-  it("Expected result: last_name property changed to updated", async () => {
-    const user = await daoUsers.save(userMock);
-    const dataUpdate = { last_name: "updated" };
-    await daoUsers.update(user._id, dataUpdate);
-    const userUpdate = await daoUsers.getBy({ _id: user._id });
+  it("Expected save() result: full user object with _id", async () => {
+    const result = await usersDao.save(userMock);
+    expect(result).to.have.property("_id");
+    expect(result.email).to.equal(userMock.email);
+  });
+  it("Expected update() result: last_name property changed to updated", async () => {
+    const user = await usersDao.save(userMock);
+    const updates = { last_name: "updated" };
+    await usersDao.update(user._id, updates);
+    const userUpdate = await usersDao.getBy({ _id: user._id });
     expect(userUpdate.last_name).to.equal("updated");
   });
 
-  it("Expected result: user not found in database after deletion", async () => {
-    const user = await daoUsers.save(userMock);
-    const deleted = await daoUsers.delete(user._id);
+  it("Expected delete() result: user not found in database after deletion", async () => {
+    const user = await usersDao.save(userMock);
+    const deleted = await usersDao.delete(user._id);
     expect(deleted).to.exist;
-    const found = await daoUsers.getBy({ _id: user._id });
+    const found = await usersDao.getBy({ _id: user._id });
     expect(found).to.be.null;
   });
 });
