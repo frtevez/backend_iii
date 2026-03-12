@@ -13,6 +13,9 @@ before(async () => {
     console.error(`Couldn't connect to database: ${error.message}`);
   }
 });
+after(async () => {
+  await mongoose.disconnect()
+})
 
 describe("Users dao CRUD testing", function () {
   this.timeout(5000);
@@ -39,7 +42,7 @@ describe("Users dao CRUD testing", function () {
     });
   });
 
-  
+
   it("Expected get() result: user objects array", async () => {
     await usersDao.save(userMock);
     const result = await usersDao.get();

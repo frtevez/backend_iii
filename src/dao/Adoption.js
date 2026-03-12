@@ -15,7 +15,7 @@ export default class Adoption {
     }
 
     update = (id,doc) =>{
-        return adoptionModel.findByIdAndUpdate(id,{$set:doc})
+        return adoptionModel.findByIdAndUpdate(id,{$set:doc},{new: true})
     }
     
     delete = (id) =>{

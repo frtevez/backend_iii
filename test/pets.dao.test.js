@@ -13,6 +13,9 @@ before(async () => {
     console.error(`Couldn't connect to database: ${error.message}`);
   }
 });
+after(async () => {
+  await mongoose.connection.close()
+})
 describe("Pet dao CRUD testing", function () {
   this.timeout(5000);
   const petDao = new Pet();
@@ -26,13 +29,13 @@ describe("Pet dao CRUD testing", function () {
   };
 
   beforeEach(async () => {
-    await mongoose.connection.collection("Pets").deleteMany({
+    await mongoose.connection.collection("pets").deleteMany({
       owner: petMock.owner,
     });
   });
 
   afterEach(async () => {
-    await mongoose.connection.collection("Pets").deleteMany({
+    await mongoose.connection.collection("pets").deleteMany({
       owner: petMock.owner,
     });
   });

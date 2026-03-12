@@ -9,7 +9,7 @@ import sessionsRouter from './routes/sessions.router.js';
 import mockRouter from './routes/mock.router.js';
 import { configDotenv } from 'dotenv';
 
-const app = express();
+export const app = express();
 configDotenv();
 const PORT = process.env.PORT || 8080;
 const connection = mongoose.connect(process.env.MONGO_URI)

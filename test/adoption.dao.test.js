@@ -13,7 +13,9 @@ before(async () => {
     console.error(`Couldn't connect to database: ${error.message}`);
   }
 });
-
+after(async () => {
+  await mongoose.connection.close()
+})
 describe("Adoption dao CRUD testing", function () {
   this.timeout(5000);
   const adoptionDao = new Adoption();
@@ -24,19 +26,19 @@ describe("Adoption dao CRUD testing", function () {
   };
 
   beforeEach(async () => {
-    await mongoose.connection.collection("Adoptions").deleteMany({
+    await mongoose.connection.collection("adoptions").deleteMany({
       owner: adoptionMock.owner,
     });
-    
+
   });
 
   afterEach(async () => {
-    await mongoose.connection.collection("Adoptions").deleteMany({
+    await mongoose.connection.collection("adoptions").deleteMany({
       owner: adoptionMock.owner,
     });
   });
 
-  
+
   it("Expected get() result: adoption objects array", async () => {
     await adoptionDao.save(adoptionMock);
     const result = await adoptionDao.get();
@@ -57,9 +59,8 @@ describe("Adoption dao CRUD testing", function () {
   it("Expected update() result: pet property changed to updated", async () => {
     const adoption = await adoptionDao.save(adoptionMock);
     const pet = mongoose.Types.ObjectId()
-    console.log("pet ",pet);
-    
-    const updates = { pet: pet};
+
+    const updates = { pet: pet };
     await adoptionDao.update(adoption._id, updates);
     const adoptionUpdate = await adoptionDao.getBy({ _id: adoption._id });
     expect(adoptionUpdate.pet.toString()).to.equal(pet.toString());

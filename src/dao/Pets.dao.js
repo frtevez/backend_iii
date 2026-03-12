@@ -15,7 +15,7 @@ export default class Pet {
     }
 
     update = (id,doc) =>{
-        return petModel.findByIdAndUpdate(id,{$set:doc})
+        return petModel.findByIdAndUpdate(id,{$set:doc},{new: true})
     }
 
     delete = (id) =>{
