@@ -1,0 +1,83 @@
+paths:
+  /api/adoptions/:
+    get:
+      summary: Get all adoptions in an array.
+      tags:
+        - Adoptions
+      responses:
+        "200":
+          description: Success, returns adoptiosn array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adoption'
+  /api/adoptions/:aid:
+    get:
+      summary: Get adoption entry by ID.
+      tags:
+        - Adoptions
+      parameters:
+        - in: path
+          name: aid
+          required: true
+          schema:
+            type: string
+          description: ID of the desired adoption entry.
+      responses:
+        "200":
+          description: Success, returns selected adoption entry.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adoption'
+        "404":
+          description: Adoption not found.
+  /api/adoptions/:uid/:pid:
+    post:
+      summary: Register a new adoption entry.
+      tags:
+        - Adoptions
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+          description: ID of the user to adopt.
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: ID of the pet to be adopted.
+      responses:
+        "200":
+          description: Success, returns adoption entry.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Adoption"
+        "404":
+          description: User ID or Pet ID not found in database
+
+components:
+  schemas:
+    Adoption:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Adoption ID
+          example: "u42t9un9n294ntt4"
+        owner:
+          type: string
+          description: owner's ID
+          example: "0afg8dfgh8dughad0fgah0dgh0"
+        pet:
+          type: string
+          description: pet's ID
+          example: "nb9udbmb9gmbd9bdg9md9n9"

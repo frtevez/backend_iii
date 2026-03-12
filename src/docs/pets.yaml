@@ -1,0 +1,117 @@
+paths:
+  /api/pets:
+    get:
+      summary: Get all pets in an array
+      tags:
+        - Pets
+      responses:
+        "200":
+          description: Success, returns pets array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+    post:
+      summary: Save a new pet entry
+      tags:
+        - Pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: Success, returns pets array.
+  /api/pets/withimage:
+    post:
+      summary: Save a new pet entry with an image
+      tags:
+        - Pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: Success, returns saved pet.
+  /api/pets/:pid:
+    put:
+      summary: Update a pet's entry
+      tags:
+        - Pets
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: ID of the pet entry to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "200":
+          description: Pet entry updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        "400":
+          description: One or more of the fields name, specie, birthDate are missing.
+    delete:
+      summary: Delete a pet's entry
+      tags:
+        - Pets
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: ID of the pet entry to be deleted
+      responses:
+        "200":
+          description: Success, pet is deleted.
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Pet's ID
+          example: "g3ht092j04694ca2e64f"
+        name:
+          type: string
+          description: Pet's name
+          example: "Wilson"
+        specie:
+          type: string
+          description: Especie de la mascota
+          example: "Cat"
+        birthDate:
+          type: string
+          description: Fecha de nacimiento de la mascota
+          example: "2016-02-01"
+        adopted:
+          type: boolean
+          description: Whether the pet is adopted or not
+          example: false
+        owner:
+          type: string
+          description: Pet owner's ID
+          example: "adf0a8df0m8adfu0d8ffm0"
+        image:
+          type: string
+          description: Pet's image URL
+          example: ""

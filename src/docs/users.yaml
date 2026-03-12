@@ -1,0 +1,116 @@
+paths:
+  /api/users/:
+    get:
+      summary: Get all users in an array
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Success, returns array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /api/users/:uid:
+    get:
+      summary: Get user by ID
+      tags:
+        - Users
+      parameters:
+        - name: uid 
+          in: path 
+          required: true
+          description: User ID
+          schema: 
+            type: string
+      responses:
+        "200":
+          description: Success, returns selected user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: User not found.
+    put:
+      summary: Update user by ID
+      tags:
+        - Users
+      parameters:
+        - name: uid 
+          in: path 
+          required: true
+          description: User ID
+          schema: 
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Success, returns updated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: User not found.
+    delete:
+      summary: Delete user by ID
+      tags:
+        - Users
+      parameters:
+        - name: uid 
+          in: path 
+          required: true
+          description: User ID
+          schema: 
+            type: string
+      responses:
+        "200":
+          description: Success, returns deleted user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string 
+          description: User's db entry ID
+          example: "ad8s96ab4694ca2e659"
+        first_name:
+          type: string 
+          description: User's first name
+          example: "John"
+        last_name:
+          type: string 
+          description: User's last name
+          example: "Doe"
+        email:
+          type: string 
+          description: User's email
+          example: "jdoe@mail.com"
+        password:
+          type: string 
+          description: User's password
+          example: "aejf08fhea08fh"
+        role:
+          type: string 
+          description: User's role
+          example: "user"
+        pets:
+          type: array 
+          description: User's pet list
+          items:
+            type: string
+          example: ["cat"]

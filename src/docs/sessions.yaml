@@ -1,0 +1,84 @@
+paths:
+  /api/sessions/register:
+    post:
+      summary: Save a new user entry.
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUser"
+      responses:
+        "200":
+          description: Success, returns user ID.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "DMAADFHAD9F8DA0FAD0FH"
+
+        "400":
+          description: One or more of first_name, last_name, email or password is missing.
+  /api/sessions/login:
+    post:
+      summary: Validate a user's information and set a session cookie.
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUser"
+      responses:
+        "200":
+          description: Success, sets session cookie.
+  /api/sessions/current:
+    get:
+      summary: Get the current session via cookie authentication.
+      tags:
+        - Sessions
+      responses:
+        "200":
+          description: Success, returns user.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    RegisterUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: User's first name
+          example: "John"
+        last_name:
+          type: string
+          description: User's last name
+          example: "Doe"
+        email:
+          type: string
+          description: User's email
+          example: "jdoe@mail.com"
+        password:
+          type: string
+          description: User's password
+          example: "aejf08fhea08fh"
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          description: User's email
+          example: "jdoe@mail.com"
+        password:
+          type: string
+          description: User's password
+          example: "aejf08fhea08fh"
