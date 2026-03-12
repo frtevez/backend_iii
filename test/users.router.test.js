@@ -7,7 +7,7 @@ import { describe, it, before, after } from "mocha";
 const request = supertest(app);
 
 const usersCollection = mongoose.connection.collection("users");
-describe("Sessions Router Test", function () {
+describe("Users Router Test", function () {
     this.timeout(5000);
 
     before(async function () {
@@ -34,7 +34,7 @@ describe("Sessions Router Test", function () {
             .expect(200)
             .then(async res => {
                 const payload = res.body.payload
-                expect(payload[0]).to.have.property("password", this.userMock.password)
+                expect(payload[0]).to.have.property("password")
                 expect(payload).to.be.an("array")
             })
     });

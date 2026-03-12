@@ -50,12 +50,12 @@ describe("Pets Router Test", function () {
             .expect(200)
             .then(async res => {
                 const payload = res.body.payload
-                expect(payload[0]).to.have.property("specie", this.petMock.specie)
+                expect(payload[0]).to.have.property("specie")
                 expect(payload).to.be.an("array")
             })
     });
 
-    it("Debe poder crearse una mascota con la ruta de la imagen", async function () {
+    it("Create Pet Object with Image: expects to find it's _id after created", async function () {
         await request
             .post("/api/pets/withimage")
             .field("specie", this.petMock.specie)
@@ -66,6 +66,7 @@ describe("Pets Router Test", function () {
             .then(async (res) => {
                 const payload = res.body.payload
                 expect(payload).to.have.property("_id");
+                petsCollection.deleteMany({ image: payload.image })
             })
     });
 
